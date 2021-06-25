@@ -1,0 +1,10 @@
+@model Wedding
+<h1 class="mt-5">@Model.WedderOne and @Model.WedderTwo's Wedding</h1>
+<h3 class="mt-4">Date: @Model.Date.ToString("MMM d, yyyy")</h3>
+<h3 class="mt-2">Guests:</h3>
+@{
+    foreach (var guest in ViewBag.AllGuests)
+    {
+        <p>@guest.User.FirstName @guest.User.LastName</p>
+    }
+}

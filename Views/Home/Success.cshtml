@@ -1,0 +1,43 @@
+@model List<Wedding>
+<h1>Welcome to the Wedding Planner</h1>
+
+<table class="table table-dark table-striped mt-4">
+    <tr>
+        <th>Wedding</th>
+        <th>Date</th>
+        <th>Guest</th>
+        <th>Action</th>
+    </tr>
+    @{
+        foreach (var wedding in Model)
+        {
+            <tr>
+                <td><a class="nodec" asp-action="ViewWedding" asp-route-weddingId="@wedding.WeddingId">@wedding.WedderOne &
+                        @wedding.WedderTwo</a></td>
+                <td>@wedding.Date.ToString("MMM d, yyyy")</td>
+                <td>@wedding.PeopleComing.Count()</td>
+                <td>
+                    <form asp-action="RSVP" asp-route-weddingId="@wedding.WeddingId" method="POST">
+                        <button class="btn btn-primary">
+                            @if (wedding.PeopleComing.Any(u => u.UserId == Context.Session.GetInt32("UserId")))
+                            {
+                                <span>un-RSVP</span>
+                            }
+                            else
+                            {
+                                <span>RSVP</span>
+                            }
+                        </button>
+                    </form>
+                            @if (wedding.UserId == Context.Session.GetInt32("UserId"))
+                            {
+                                <form asp-action="Delete" asp-route-weddingId="@wedding.WeddingId" method="POST">
+                                    <button class="btn btn-primary">Delete</button>
+                                </form>
+                            }
+                </td>
+            </tr>
+        }
+    }
+</table>
+<a asp-action="AddWedding" class="btn btn-primary">New Wedding</a>
